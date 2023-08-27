@@ -125,7 +125,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = BASE_DIR / 'static',
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
@@ -137,8 +137,5 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
-    # 'DEFAULT_PARSER_CLASSES': [
-        # 'rest_framework.parsers.JSONParser',
-        # 'rest_framework.parsers.MultiPartParser',
-    # ]
 }
+APPEND_SLASH = False

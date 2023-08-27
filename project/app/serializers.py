@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from . models import File 
+from . models import Client
 
-class UploadFileSerializer(serializers.ModelSerializer):
+class CSVUploaderializer(serializers.Serializer):
 
-    class Meta:
-        model = File
-        fields = '__all__'
-   
+    csv_file = serializers.FileField()
