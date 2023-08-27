@@ -8,58 +8,58 @@ from rest_framework.views import APIView
 from . models import Client
 
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from . serializers import CSVUploaderializer
+from . serializers import CSVUploadSerializer, ClientSerializer
 import csv
+import io
 
 
-
-class FooView(APIView):
+class ClientView(APIView):
 
     parser_classes = (MultiPartParser, FormParser, JSONParser)
-    serializer_class =  CSVUploaderializer
+    serializer_class =  CSVUploadSerializer
+
+
+
 
     def get(self, request):
-
-        filename = Client.objects.last()
-        with open('media/' + str(filename), 'r') as f:
-            data = csv.DictReader(f, delimiter=';')
-            print(data.fieldnames)
-        
-        serializer = CSVUploaderializer(filename)
-            
+        queryset = Client.objects.filter(total=612).values('customer', 'item', 'total')
+        # var = queryset.values_list('customer', 'item').values_list()
+        # print(var)
+        serializer = ClientSerializer(queryset, many=True)
         return Response({'data': serializer.data})
-    
+
+
+
+
+
     def post(self, request, *args, **kwargs):
-        import io
-        serializer = CSVUploaderializer(data=request.data)
+        serializer = CSVUploadSerializer(data=request.data)
         if serializer.is_valid():
-            csv_file = request.data['csv_file']
+            serializer = CSVUploadSerializer(data=request.data)
+            if serializer.is_valid():
+                csv_file = request.data['csv_file']
+                file_obj = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(file_obj)
+                reader = list(csv.reader(io_string, delimiter=','))
 
-            file_obj = csv_file.read().decode('utf-8')
-            io_string = io.StringIO(file_obj)
-            reader = list(csv.reader(io_string, delimiter=','))
-            for x in reader[1:]:
-                Client.objects.create(
-                    customer = x[0],
-                    item = x[1],
-                    total = x[2],
-                    quantity = x[3],
-                    date = x[4]
-                )
+                for x in reader[1:]:
 
-
-            '''
-            serializer.save()
-            filename = serializer.data['file'].strip('/')            
-            with open(BASE_DIR / filename, 'r') as f:
-                rows = list(csv.reader(f, delimiter=','))                
-                for x in rows[1:]:
-                    Client(
-                        username = x[0],
+                    Client.objects.update_or_create(
+                        customer = x[0],
                         item = x[1],
-                    ).save()
-            '''
+                        total = x[2],
+                        quantity = x[3],
+                        date = x[4],
+                    )
 
-            return Response(serializer.data, status=201)
-        else:
-            return Response(serializer.errors, status=400)
+                return Response('OK - файл был обработан без ошибок', status=201)
+            else:
+                return Response(serializer.errors, status=400)
+
+# filename = Client.objects.last()
+# with open('media/' + str(filename), 'r') as f:
+#     data = csv.DictReader(f, delimiter=';')
+#     print(data.fieldnames)
+
+# serializer = CSVUploadSerializer(filename)
+    

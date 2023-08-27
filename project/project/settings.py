@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # third party
     'rest_framework',
+    'import_export',
     # mine
     'app',
 ]
@@ -139,3 +140,6 @@ REST_FRAMEWORK = {
     ],
 }
 APPEND_SLASH = False
+
+IMPORT_EXPORT_IMPORT_PERMISSION_CODE = 'delete' 
+IMPORT_EXPORT_EXPORT_PERMISSION_CODE = 'delete'
