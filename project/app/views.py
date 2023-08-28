@@ -22,9 +22,9 @@ class ClientView(APIView):
 
 
     def get(self, request):
-        queryset = Client.objects.filter(total=612).values('customer', 'item', 'total')
-        # var = queryset.values_list('customer', 'item').values_list()
-        # print(var)
+        # queryset = Client.objects.all().values_list('customer', flat=True)
+        # queryset = Client.objects.all().values_list('gems', flat=True)
+        queryset = Client.objects.all().values('gems')
         serializer = ClientSerializer(queryset, many=True)
         return Response({'data': serializer.data})
 
@@ -35,26 +35,43 @@ class ClientView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = CSVUploadSerializer(data=request.data)
         if serializer.is_valid():
-            serializer = CSVUploadSerializer(data=request.data)
-            if serializer.is_valid():
-                csv_file = request.data['csv_file']
-                file_obj = csv_file.read().decode('utf-8')
-                io_string = io.StringIO(file_obj)
-                reader = list(csv.reader(io_string, delimiter=','))
+            csv_file = request.data['csv_file']
+            file_obj = csv_file.read().decode('utf-8')
+            io_string = io.StringIO(file_obj)
+            reader = list(csv.reader(io_string, delimiter=','))
 
-                for x in reader[1:]:
+            usernames = []
+            for x in reader[1:]:
+                usernames.append(x[0])
 
-                    Client.objects.update_or_create(
-                        customer = x[0],
-                        item = x[1],
-                        total = x[2],
-                        quantity = x[3],
-                        date = x[4],
-                    )
+            names = list(set(usernames))
+            obj = []
+            for x in names:
+                dct = {'username': x}
+                for j in reader[1:]:
+                    if x == j[0]:
+                        try:
+                            dct['spent_money'] += int(j[2])
+                            dct['gems'] += [j[1]]
+                        except KeyError:
+                            dct['spent_money'] = int(j[2])
+                            dct['gems'] = [j[1]]
+                obj.append(dct)
 
-                return Response('OK - файл был обработан без ошибок', status=201)
-            else:
-                return Response(serializer.errors, status=400)
+            # for x in obj:
+                # print(type(x.get('gems')))
+
+
+            for x in obj:
+                Client.objects.update_or_create(
+                    username = x.get('username'),
+                    spent_money = x.get('spent_money'),
+                    gems = x.get('gems'),
+                )
+
+            return Response('OK - файл был обработан без ошибок', status=201)
+        else:
+            return Response(serializer.errors, status=400)
 
 # filename = Client.objects.last()
 # with open('media/' + str(filename), 'r') as f:

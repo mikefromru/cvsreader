@@ -1,14 +1,23 @@
+import json
 from django.db import models
 
 # Create your models here.
 
 class Client(models.Model):
 
-    customer = models.CharField(max_length=255, blank=True, null=True)
-    item = models.CharField(max_length=550, blank=True, null=True)
-    total = models.PositiveSmallIntegerField(blank=True, null=True)
-    quantity = models.PositiveSmallIntegerField(blank=True, null=True)
-    date = models.DateTimeField(blank=True, null=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    spent_money = models.PositiveSmallIntegerField(blank=True, null=True)
+    gems = models.JSONField(blank=True, null=True)
+
+    # @property
+    # def gemslist(self):
+        # return list(self.gems.all())
+
+    # def set_gems(self, lst):
+    #     self.gems = json.dumps(lst)
+
+    # def get_gems(self):
+    #     return json.loads(self.gems)
 
     def __str__(self):
-        return self.customer
+        return self.username
