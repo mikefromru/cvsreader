@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     # third party
     'rest_framework',
-    'import_export',
     # mine
     'app',
 ]
