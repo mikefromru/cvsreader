@@ -14,3 +14,7 @@ cd cvsreader
 ```
 pip install -r requirements.txt
 ```
+
+###Использование
+- Получить обработанные данные GET `http://0.0.0.0:800/csv-file`
+- Загрузить файл для обработки и добавления в БД POST `http://0.0.0.0:8000/csv-file`
