@@ -4,5 +4,5 @@
 ### Установка зависимостей
 Для установки зависимостей, выполните команду:
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
