@@ -4,7 +4,7 @@
 ### Начать
 1. Склонировать репозиторий
 ```
-https://github.com/mikefromru/cvsreader.git
+git clone https://github.com/mikefromru/cvsreader.git
 ```
 2. Прейдите в папку с проектом
 ```
