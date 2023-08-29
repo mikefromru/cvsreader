@@ -16,7 +16,7 @@ python3.10 -m venv venv
 ``` 
 4. Активировать виртуальное окружение
 ```
-source env/bin/activate
+source venv/bin/activate
 ```
 5. Для установки зависимостей, выполнить команду
 ```
