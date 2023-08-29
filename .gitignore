@@ -7,8 +7,6 @@ db.sqlite3
 media
 
 # mine #
-client.py
-deals.py
 
 # Backup files # 
 *.bak 
