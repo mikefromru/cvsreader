@@ -41,3 +41,4 @@ python manage.py runserver
 ### Использование
 - Получить обработанные данные GET `http://0.0.0.0:800/csv-file`
 - Загрузить файл для обработки и добавления в БД POST `http://0.0.0.0:8000/csv-file`
+- Можно использовать `client.py` файл для выполнения POST и GET запросов `python client.py`
