@@ -26,15 +26,15 @@ pip install -r requirements.txt
 ```
 cd project
 ```
-6. Создать файл `.env` в директории `cvsreader/project/project` где находится `settings.py` и добавить переменную окружения
+7. Создать файл `.env` в директории `cvsreader/project/project` где находится `settings.py` и добавить переменную окружения
 ```env
 SECRET_KEY=your_secret_key_without_quotation_marks
 ``` 
-7. Создать миграции
+8. Создать миграции
 ```
 python manage.py migrate
 ```
-8. Запустить проект
+9. Запустить проект
 ```
 python manage.py runserver
 ```
