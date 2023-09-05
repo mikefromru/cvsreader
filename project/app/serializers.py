@@ -44,17 +44,11 @@ class CSVUploadSerializer(serializers.Serializer):
                         dct['gems'] = [row[1]]
             obj.append(dct)
 
-        # for x in obj:
-        #     deals = Client.objects.update_or_create(
-        #         username = x.get('username'),
-        #         spent_money = x.get('spent_money'),
-        #         gems = x.get('gems'),
-        #     )
-
-        obj_list = [Client(**data_dict) for data_dict in obj]
-        return Client.objects.bulk_create(
-            obj_list,
-              update_conflicts=False,
-              unique_fields=['username'],
-              update_fields=['spent_money', 'gems'],
+        for x in obj:
+            deals = Client.objects.update_or_create(
+                username = x.get('username'),
+                spent_money = x.get('spent_money'),
+                gems = x.get('gems'),
             )
+        return deals 
+

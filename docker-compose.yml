@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    #command: python /project/project/manage.py runserver 0.0.0.0:8000
+
+    volumes:
+      - ./project:/project/
+    ports: 
+      - 8000:8000
+    depends_on:
+      - db
+    links:
+      - db:db
+    entrypoint: /entrypoint.sh
+  db:
+    #image: postgres:12.0-alpine
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      
+volumes:
+  postgres_data:
