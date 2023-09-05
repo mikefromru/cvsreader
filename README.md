@@ -1,6 +1,11 @@
 # CSVReader
 Веб-сервис на базе django, предоставляющий REST-api. Принимает из POST-запроса .csv файл для обработки. Сохраняет извлеченные из файла данные в БД и возвращает обработанные данные в ответе на GET-запрос.
-
+### Технологии
+- Django
+- Django REST Framework
+- Docker
+- Docker compose
+- Postgres
 ### Начать
 1. Клонировать репозиторий
 ```
@@ -23,3 +28,5 @@ docker-compose --env-file project/project/.env up
 ##### Зависимости для консольной программы `client.py` 
 ```
 pip install requests simple_term_menu art
+```
+
